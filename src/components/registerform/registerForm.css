@@ -1,0 +1,17 @@
+.content {
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 40px;
+    text-align: center;
+}
+
+.input {
+    margin-top: 20px;
+}
+
+.button {
+    margin-top: 80px;
+    color: red;
+    width: 200px;
+}
