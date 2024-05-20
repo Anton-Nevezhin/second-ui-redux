@@ -4,20 +4,25 @@ import "./pages.css";
 import { REGISTER_ROUTE } from "../utils/paths";
 import { useEffect } from "react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setUser } from "../store/userSlice";
 
 const HomePage = () => {
+  const dispatch = useDispatch()
   const navigate = useNavigate();
   const getUser = async () => {
     const token = localStorage.getItem("token");
-    const { data } = await axios.get("http://localhost:3000/users/getUser", {
+    const { data } = await axios.get("http://localhost:3000/users/self", {
       headers: {
-        Authorization: `${token}`, // обратные кавычки
+        Authorization: `
+        Bearer ${token}`, // обратные кавычки
       },
     });
     if (!data) {
       navigate(REGISTER_ROUTE);
     } else {
-      console.log("data home: ", data);
+      // console.log("data home: ", data);
+      dispatch(setUser({id: data.id, username: data.username}))
     }
   };
   useEffect(() => {
@@ -26,7 +31,7 @@ const HomePage = () => {
   const token = localStorage.getItem("token");
   return (
     <div>
-      <Menu>
+      {/* <Menu>
         <Menu.Item>
           <Link to="/" className="menu">
             Главная
@@ -42,9 +47,8 @@ const HomePage = () => {
             Логин
           </Link>
         </Menu.Item>
-      </Menu>
+      </Menu> */}
       <Text variant="display-1">Главная</Text>
-      <span>{token}</span>
     </div>
   );
 };

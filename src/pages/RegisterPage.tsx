@@ -6,7 +6,7 @@ import { Menu } from "@gravity-ui/uikit";
 const RegisterPage = () => {
   return (
     <div>
-      <Menu>
+      {/* <Menu>
         <Menu.Item>
           <Link to="/" className="menu">
             Главная
@@ -22,7 +22,7 @@ const RegisterPage = () => {
             Логин
           </Link>
         </Menu.Item>
-      </Menu>
+      </Menu> */}
       <RegistеrForm />
     </div>
   );

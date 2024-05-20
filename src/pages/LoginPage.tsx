@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const LoginPage = () => {
   return (
     <div>
-      <Menu>
+      {/* <Menu>
         <Menu.Item>
           <Link to="/" className="menu">
             Главная
@@ -23,7 +23,7 @@ const LoginPage = () => {
             Логин
           </Link>
         </Menu.Item>
-      </Menu>
+      </Menu> */}
       <LoginForm />
     </div>
   );
