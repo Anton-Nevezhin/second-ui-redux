@@ -1,49 +1,54 @@
 import { FormEvent, useState } from "react";
 import { Button, TextInput, Text, Alert } from "@gravity-ui/uikit";
 import "./loginForm.css";
+import { useNavigate } from "react-router-dom";
+import { HOME_ROUTE } from "../../utils/paths";
+import { useDispatch } from "react-redux";
 
 import axios from "axios";
+import { changeAlert } from "../../store/alertSlice";
 // import { HOME_ROUTE } from "../../utils/paths";
 // import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
-  // const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
 
-  const [alert, setAlert] = useState<{
-    // дальше типизация для ts
-    theme: "success" | "danger" | "normal" | "info";
-    title: string;
-    message: string;
-    isVisible: boolean;
-  }>({
-    theme: "success" || "danger",
-    title: "",
-    message: "",
-    isVisible: false,
-  });
+  // const [alert, setAlert] = useState<{
+  //   // дальше типизация для ts
+  //   theme: "success" | "danger" | "normal" | "info";
+  //   title: string;
+  //   message: string;
+  //   isVisible: boolean;
+  // }>({
+  //   theme: "success" || "danger",
+  //   title: "",
+  //   message: "",
+  //   isVisible: false,
+  // });
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (login && password) {
       const { data } = await axios.post("http://localhost:3000/auth/login", {
         username: login,
-        password,
+        password
       });
       console.log("data login: ", data);
       if (data) {
         console.log('data register: ', data)
         localStorage.setItem('token', data.token)
-        // navigate(HOME_ROUTE)
+        navigate(HOME_ROUTE)
         // если запрос проходит, то data получает какое-то значение
-        setAlert({
+        dispatch (changeAlert({
           // alert при успешном получении запроса
           theme: "success",
           title: "Успешно",
           message: "Успешный вход",
           isVisible: true,
-        });
+        }));
 
         // dispatch(changeAlert({
         //   // alert при успешном получении запроса
@@ -56,13 +61,13 @@ const LoginForm = () => {
       } 
     }
     else {
-      setAlert({
+      dispatch (changeAlert({
         // если хотя бы одно поле пустое, выдается alert с ошибкой
         theme: "danger",
         title: "Ошибка",
         message: "Заполните оба поля",
         isVisible: true,
-      });
+      }));
     }
   };
 
@@ -82,7 +87,7 @@ const LoginForm = () => {
           onChange={(e) => setPassword(e.target.value)}
           value={password}
         />
-        <Button className="btn" view="normal" size="l" onClick={onSubmit}>
+        <Button className="btn" type="submit" view="normal" size="l" onClick={onSubmit}>
           Войти
         </Button>
       </form>

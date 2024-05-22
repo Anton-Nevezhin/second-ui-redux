@@ -8,8 +8,9 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../store/userSlice";
 
 const HomePage = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  let user = ''
   const getUser = async () => {
     const token = localStorage.getItem("token");
     const { data } = await axios.get("http://localhost:3000/users/self", {
@@ -21,8 +22,9 @@ const HomePage = () => {
     if (!data) {
       navigate(REGISTER_ROUTE);
     } else {
-      // console.log("data home: ", data);
-      dispatch(setUser({id: data.id, username: data.username}))
+      console.log("data home: ", data);
+      user = data
+      dispatch(setUser({ id: data.id, username: data.username }));
     }
   };
   useEffect(() => {
@@ -30,7 +32,7 @@ const HomePage = () => {
   }, []);
   const token = localStorage.getItem("token");
   return (
-    <div>
+    <div className="content">
       {/* <Menu>
         <Menu.Item>
           <Link to="/" className="menu">

@@ -1,13 +1,15 @@
-import { ReactNode } from 'react'
-import AlertView from '../AlertView'
+import { ReactNode } from "react";
+import AlertView from "../AlertView";
+import "./mainLayout.css";
 
-const MainLayout = ({children}:{children:ReactNode}) => {
+const MainLayout = ({ children }: { children: ReactNode }) => {
+  // обертка. В ней один alert
   return (
-    <div>
-        <AlertView />
+    <div className="content">
       {children}
+      <AlertView />
     </div>
-  )
-}
+  );
+};
 
-export default MainLayout
+export default MainLayout;
