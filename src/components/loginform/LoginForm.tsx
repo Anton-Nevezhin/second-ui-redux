@@ -12,7 +12,7 @@ import { changeAlert } from "../../store/alertSlice";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
 
@@ -34,21 +34,23 @@ const LoginForm = () => {
     if (login && password) {
       const { data } = await axios.post("http://localhost:3000/auth/login", {
         username: login,
-        password
+        password,
       });
       console.log("data login: ", data);
       if (data) {
-        console.log('data register: ', data)
-        localStorage.setItem('token', data.token)
-        navigate(HOME_ROUTE)
+        console.log("data register: ", data);
+        localStorage.setItem("token", data.token);
+        navigate(HOME_ROUTE);
         // если запрос проходит, то data получает какое-то значение
-        dispatch (changeAlert({
-          // alert при успешном получении запроса
-          theme: "success",
-          title: "Успешно",
-          message: "Успешный вход",
-          isVisible: true,
-        }));
+        dispatch(
+          changeAlert({
+            // alert при успешном получении запроса
+            theme: "success",
+            title: "Успешно",
+            message: "Успешный вход",
+            isVisible: true,
+          })
+        );
 
         // dispatch(changeAlert({
         //   // alert при успешном получении запроса
@@ -57,17 +59,17 @@ const LoginForm = () => {
         //   message: "Успешный вход",
         //   isVisible: true,
         // }))
-
-      } 
-    }
-    else {
-      dispatch (changeAlert({
-        // если хотя бы одно поле пустое, выдается alert с ошибкой
-        theme: "danger",
-        title: "Ошибка",
-        message: "Заполните оба поля",
-        isVisible: true,
-      }));
+      }
+    } else {
+      dispatch(
+        changeAlert({
+          // если хотя бы одно поле пустое, выдается alert с ошибкой
+          theme: "danger",
+          title: "Ошибка",
+          message: "Заполните оба поля",
+          isVisible: true,
+        })
+      );
     }
   };
 
@@ -87,17 +89,16 @@ const LoginForm = () => {
           onChange={(e) => setPassword(e.target.value)}
           value={password}
         />
-        <Button className="btn" type="submit" view="normal" size="l" onClick={onSubmit}>
+        <Button
+          className="btn"
+          type="submit"
+          view="normal"
+          size="l"
+          onClick={onSubmit}
+        >
           Войти
         </Button>
       </form>
-      {alert.isVisible && (
-        <Alert
-          theme={alert.theme}
-          title={alert.title}
-          message={alert.message}
-        />
-      )}
     </div>
   );
 };
