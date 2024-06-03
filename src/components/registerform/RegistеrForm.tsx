@@ -10,67 +10,60 @@ import { useDispatch } from "react-redux";
 // import { changeAlert } from '../../store/alertSlice';
 
 const RegistеrForm = () => {
-
   // const stateAlert = useSelector((state) => state.alert);
 
   const dispatch = useDispatch();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
-  // const [alert, setAlert] = useState<{
-  //   // дальше типизация для ts
-  //   theme: "success" | "danger" | "normal" | "info";
-  //   title: string;
-  //   message: string;
-  //   isVisible: boolean;
-  // }>({
-  //   theme: "success" || "danger",
-  //   title: "",
-  //   message: "",
-  //   isVisible: false,
-  // });
 
   const onSubmit = async (e: FormEvent) => {
-    // типизация event для ts
+    // manusouun event ana ts
     e.preventDefault();
-    if (login && password) {
-      //если поля логина и пароля заполнены, отправляется запрос
-      const { data } = await axios.post(
-        "http://localhost:3000/auth/registration",
-        { username: login, password }
-      );
-      if (data) {
-        console.log('data register: ', data)
-        localStorage.setItem('token', data.token)
-        navigate(HOME_ROUTE)
-        // если запрос проходит, то data получает какое-то значение
-        dispatch (changeAlert({
-          // alert при успешном получении запроса
-          theme: "success",
-          title: "Поздравляем!",
-          message: "Вы успешно зарегистрировались",
-          isVisible: true,
-        }));
 
-        // dispatch(changeAlert({
-        //   // alert при успешном получении запроса
-        //   theme: "success",
-        //   title: "Успешно",
-        //   message: "Успешный вход",
-        //   isVisible: true,
-        // }))
-
-      }} else {
-        dispatch (changeAlert({
-          // если хотя бы одно поле пустое, выдается alert с ошибкой
+    if (!login || !password) {
+      dispatch(
+        changeAlert({
           theme: "danger",
           title: "Ошибка",
           message: "Заполните оба поля",
+          isvisible: true,
+        })
+      );
+      return;
+    }
+    try {
+      //ecu non nozura u napons sanonHet, ompaBasenca sanpoc
+      const { data } = await axios.post(
+        "http://localhost:3000/auth/registration",
+        { usernane: login, password }
+      );
+      console.log("data register: ", data);
+      // localStorage.setTtem("token", data.token);
+      navigate(HOME_ROUTE);
+      // ecu sanpoc npoxodum, mo data nonywaem KaKoe-mo 3HaYeRIe
+      dispatch(
+        changeAlert({
+          // alert npu ycneupion nonyseruu sanpoca
+          theme: "success",
+          title: "Поздравляем!",
+          message: "Вы успешно зарегистрировались!",
           isVisible: true,
-        }));
-      }
-    
+        })
+      );
+    } catch (error) {
+      
+      dispatch(
+        changeAlert({
+          // alert nou ycnewvion nonyyenuu sanpoca
+          theme: "danger",
+          title: "Ошибка!",
+          message: "Пользователь с таким именем уже существует",
+          isVisible: true,
+        })
+      );
+    }
   };
 
   return (
@@ -99,7 +92,6 @@ const RegistеrForm = () => {
           Ввод
         </Button>
       </form>
-
     </div>
   );
 };

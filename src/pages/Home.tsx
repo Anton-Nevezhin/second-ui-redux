@@ -4,13 +4,13 @@ import "./pages.css";
 import { REGISTER_ROUTE } from "../utils/paths";
 import { useEffect } from "react";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../store/userSlice";
 
 const HomePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  let user = ''
+  const user = useSelector(store => store.user.user)
   const getUser = async () => {
     const token = localStorage.getItem("token");
     const { data } = await axios.get("http://localhost:3000/users/self", {
@@ -23,7 +23,6 @@ const HomePage = () => {
       navigate(REGISTER_ROUTE);
     } else {
       console.log("data home: ", data);
-      user = data
       dispatch(setUser({ id: data.id, username: data.username }));
     }
   };
@@ -33,7 +32,7 @@ const HomePage = () => {
   const token = localStorage.getItem("token");
   return (
     <div className="content">
-      {/* <Menu>
+       <Menu>
         <Menu.Item>
           <Link to="/" className="menu">
             Главная
@@ -49,8 +48,9 @@ const HomePage = () => {
             Логин
           </Link>
         </Menu.Item>
-      </Menu> */}
+      </Menu>
       <Text variant="display-1">Главная</Text>
+      <h3>{user.username}, привет!!!</h3>
     </div>
   );
 };
